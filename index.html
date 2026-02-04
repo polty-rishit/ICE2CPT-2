@@ -524,6 +524,49 @@ img {
   }
 }
 
+/* ================= HERO BACKGROUND CAROUSEL FIX ================= */
+
+.hero-sec {
+  position: relative;        /* anchor for absolute carousel */
+  overflow: hidden;
+}
+
+/* Carousel wrapper sits behind content */
+.hero-carousel {
+  position: absolute;
+  inset: 0;                  /* top:0 right:0 bottom:0 left:0 */
+  z-index: -1;
+}
+
+/* Ensure carousel fills hero */
+.hero-carousel,
+.hero-carousel .carousel-inner,
+.hero-carousel .carousel-item {
+  height: 100%;
+}
+
+/* Make images behave like background images */
+.hero-carousel img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.8);  /* optional: improve text contrast */
+}
+
+/* Make sure hero content stays above */
+.hero-sec > *:not(.hero-carousel) {
+  position: relative;
+  z-index: 2;
+}
+
+/* Mobile height control */
+@media (max-width: 900px) {
+  .hero-sec {
+    min-height: 85vh;
+  }
+}
+
+
   </style>
 
 
@@ -635,8 +678,8 @@ img {
         <source src="assets/coer_build.png" type="video/mp4" />
         Your browser does not support the video tag.
       </video> -->
-      <img src="assets/coer_build.png" alt="Background" class="bg-video" />
-       <!-- <div id="heroCarousel" class="carousel slide carousel-fade hero-carousel" data-bs-ride="carousel" data-bs-touch="true" data-bs-interval="4500">
+      
+       <div id="heroCarousel" class="carousel slide carousel-fade hero-carousel" data-bs-ride="carousel" data-bs-touch="true" data-bs-interval="4500">
   
   <div class="carousel-inner">
 
@@ -658,7 +701,7 @@ img {
 
   </div>
 
-</div> -->
+</div> 
 
 
        
