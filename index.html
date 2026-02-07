@@ -994,31 +994,44 @@ img {
   });
 
   /************ REAL CALENDAR CALC ************/
-  function getRemainingTime() {
-    const now = new Date();
-    let temp = new Date(now);
-    let months = 0;
+function getRemainingTime() {
+  const now = new Date();
 
-    // Count full calendar months
-    while (new Date(temp.getFullYear(), temp.getMonth() + 1, temp.getDate()) <= EXP_DATE) {
-      temp.setMonth(temp.getMonth() + 1);
-      months++;
-    }
-
-    let diff = EXP_DATE - temp;
-    if (diff < 0) diff = 0;
-
-    const days = Math.floor(diff / 86400000);
-    diff %= 86400000;
-
-    const hours = Math.floor(diff / 3600000);
-    diff %= 3600000;
-
-    const minutes = Math.floor(diff / 60000);
-    const seconds = Math.floor((diff % 60000) / 1000);
-
-    return { months, days, hours, minutes, seconds };
+  // If date already passed
+  if (now >= EXP_DATE) {
+    return { months: 0, days: 0, hours: 0, minutes: 0, seconds: 0 };
   }
+
+  // Calculate months difference
+  let months =
+    (EXP_DATE.getFullYear() - now.getFullYear()) * 12 +
+    (EXP_DATE.getMonth() - now.getMonth());
+
+  let temp = new Date(now);
+  temp.setMonth(temp.getMonth() + months);
+
+  // If temp overshoots, reduce one month
+  if (temp > EXP_DATE) {
+    months--;
+    temp = new Date(now);
+    temp.setMonth(temp.getMonth() + months);
+  }
+
+  let diff = EXP_DATE - temp;
+
+  const days = Math.floor(diff / 86400000);
+  diff %= 86400000;
+
+  const hours = Math.floor(diff / 3600000);
+  diff %= 3600000;
+
+  const minutes = Math.floor(diff / 60000);
+  const seconds = Math.floor((diff % 60000) / 1000);
+
+  return { months, days, hours, minutes, seconds };
+}
+
+
 
   /************ HELPERS ************/
   function pad2(n) {
